@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All rights reserved"
+
+[[mods]]
+modId="hardcore"
+version="1A0N0"
+displayName="Hradcore Mod"
+logoFile="hardcore.png"
+credits=""
+authors="Nemi1230"
+description='''
+ Vanilla Minecraft too low difficulty?
+ This mod will greatly increase the difficulty level of Minecraft and you will miss vanilla Minecraft.
+'''
+
+[[dependencies.hardcore]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.hardcore]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
