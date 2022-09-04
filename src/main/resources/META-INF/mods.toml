@@ -6,7 +6,7 @@ license="All rights reserved"
 modId="hardcore"
 version="1A0N0"
 displayName="Hradcore Mod"
-logoFile="hardcore.png"
+#logoFile="hardcore.png"
 credits=""
 authors="Nemi1230"
 description='''
@@ -18,7 +18,7 @@ description='''
     modId="forge"
     mandatory=true
     versionRange="[36,)"
-    ordering="NONE"
+    ordering="AFTER"
     side="BOTH"
 
 [[dependencies.hardcore]]
