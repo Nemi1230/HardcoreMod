@@ -3,18 +3,22 @@ package jp.nemi.hardcore.object.blocks;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import net.minecraft.block.*;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -30,6 +34,29 @@ public class WallStickBlock extends StickBlock {
     public WallStickBlock(AbstractBlock.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    public ActionResultType use(BlockState p_225533_1_, World p_225533_2_, BlockPos p_225533_3_, PlayerEntity p_225533_4_, Hand p_225533_5_, BlockRayTraceResult p_225533_6_) {
+        ItemStack itemStack = p_225533_4_.getItemInHand(p_225533_5_);
+
+        if (itemStack.getItem() == Items.FLINT_AND_STEEL) {
+            if (!p_225533_2_.isClientSide) {
+                Direction direction = p_225533_6_.getDirection();
+                Direction direction1 = direction.getAxis() == Direction.Axis.Y ? p_225533_4_.getDirection().getOpposite() : direction;
+                p_225533_2_.playSound((PlayerEntity)null, p_225533_3_, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                p_225533_2_.setBlock(p_225533_3_, Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, p_225533_1_.getValue(WallStickBlock.FACING)), 11);
+
+                itemStack.hurtAndBreak(1, p_225533_4_, (p_220282_1_) -> {
+                    p_220282_1_.broadcastBreakEvent(p_225533_5_);
+                });
+            }
+
+            return ActionResultType.sidedSuccess(p_225533_2_.isClientSide);
+        }
+        else {
+            return super.use(p_225533_1_, p_225533_2_, p_225533_3_, p_225533_4_, p_225533_5_, p_225533_6_);
+        }
     }
 
     @Override
