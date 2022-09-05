@@ -32,9 +32,11 @@ public class StickBlock extends Block {
                 p_225533_2_.playSound((PlayerEntity)null, p_225533_3_, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 p_225533_2_.setBlock(p_225533_3_, Blocks.TORCH.defaultBlockState(), 11);
 
-                itemStack.hurtAndBreak(1, p_225533_4_, (p_220282_1_) -> {
-                    p_220282_1_.broadcastBreakEvent(p_225533_5_);
-                });
+                if (!p_225533_4_.isCreative()) {
+                    itemStack.hurtAndBreak(1, p_225533_4_, (p_220282_1_) -> {
+                        p_220282_1_.broadcastBreakEvent(p_225533_5_);
+                    });
+                }
             }
 
             return ActionResultType.sidedSuccess(p_225533_2_.isClientSide);
