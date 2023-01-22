@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "lit_state=1": { "model": "hardcore:block/torch_lit" },
-    "lit_state=0": { "model": "hardcore:block/torch_few" }
-  }
-}
