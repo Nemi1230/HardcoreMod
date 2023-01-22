@@ -1,5 +1,8 @@
 package jp.nemi.hardcore.object.blocks;
 
+import jp.nemi.hardcore.config.HCConfigGeneral;
+import jp.nemi.hardcore.init.HCBlocks;
+import jp.nemi.hardcore.object.blocks.vanilla.CustomTorchBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -29,8 +32,9 @@ public class StickBlock extends Block {
 
         if (itemStack.getItem() == Items.FLINT_AND_STEEL) {
             if (!p_225533_2_.isClientSide) {
-                p_225533_2_.playSound((PlayerEntity)null, p_225533_3_, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                p_225533_2_.setBlock(p_225533_3_, Blocks.TORCH.defaultBlockState(), 11);
+                p_225533_2_.playSound(null, p_225533_3_, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                p_225533_2_.setBlock(p_225533_3_, HCBlocks.CUSTOM_TORCH.get().defaultBlockState().setValue(CustomTorchBlock.LIT, Integer.valueOf(1)).setValue(CustomTorchBlock.LIGHTING_TIME, Integer.valueOf(HCConfigGeneral.torchLightingTime.get())), 11);
+                p_225533_2_.getBlockTicks().scheduleTick(p_225533_3_, HCBlocks.CUSTOM_TORCH.get(), 1200);
 
                 if (!p_225533_4_.isCreative()) {
                     itemStack.hurtAndBreak(1, p_225533_4_, (p_220282_1_) -> {

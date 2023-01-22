@@ -28,12 +28,12 @@ public class CustomWallTorchBlock extends CustomTorchBlock {
 
     public CustomWallTorchBlock(Properties properties, IParticleData particle) {
         super(properties, particle);
-        this.registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
     }
 
     @Override
     public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-        if (state.getValue(LITSTATE).intValue() == 1 || (state.getValue(LITSTATE).intValue() == 0 && world.getRandom().nextInt(2) == 1)) {
+        if (state.getValue(LIT).intValue() == 1 || (state.getValue(LIT).intValue() == 0 && world.getRandom().nextInt(2) == 1)) {
             Direction direction = state.getValue(FACING);
             double d0 = (double)pos.getX() + 0.5D;
             double d1 = (double)pos.getY() + 0.7D;
@@ -48,7 +48,7 @@ public class CustomWallTorchBlock extends CustomTorchBlock {
 
     @Override
     public void lit(World world, BlockPos pos, BlockState state) {
-        world.setBlockAndUpdate(pos, HCBlocks.CUSTOM_TORCH.get().defaultBlockState().setValue(LIGHTINGTIME, Integer.valueOf(getInitialLightingTime())).setValue(LITSTATE, Integer.valueOf(1)));
+        world.setBlockAndUpdate(pos, HCBlocks.CUSTOM_TORCH.get().defaultBlockState().setValue(LIGHTING_TIME, Integer.valueOf(getInitialLightingTime())).setValue(LIT, Integer.valueOf(1)));
         if (isBurnout)
             world.getBlockTicks().scheduleTick(pos, this, 1200);
     }
@@ -56,7 +56,7 @@ public class CustomWallTorchBlock extends CustomTorchBlock {
     @Override
     public void few(World world, BlockPos pos, BlockState state, int currentLightingTime) {
         if (isBurnout) {
-            world.setBlockAndUpdate(pos, HCBlocks.CUSTOM_WALL_TORCH.get().defaultBlockState().setValue(LITSTATE, Integer.valueOf(1)).setValue(LIGHTINGTIME, Integer.valueOf(currentLightingTime)).setValue(FACING, state.getValue(FACING)));
+            world.setBlockAndUpdate(pos, HCBlocks.CUSTOM_WALL_TORCH.get().defaultBlockState().setValue(LIT, Integer.valueOf(1)).setValue(LIGHTING_TIME, Integer.valueOf(currentLightingTime)).setValue(FACING, state.getValue(FACING)));
             world.getBlockTicks().scheduleTick(pos, this, 1200);
         }
     }

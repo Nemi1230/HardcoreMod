@@ -33,17 +33,17 @@ import java.util.function.ToIntFunction;
 public class CustomTorchBlock extends TorchBlock {
     protected static final int lightingTime = HCConfigGeneral.torchLightingTime.get();
     protected static final boolean isBurnout = lightingTime > 0;
-    public static final IntegerProperty LIGHTINGTIME = IntegerProperty.create("lighting_time", 0, isBurnout ? lightingTime : 1);
-    public static final IntegerProperty LITSTATE = IntegerProperty.create("lit_state", 0, 1);
+    public static final IntegerProperty LIGHTING_TIME = IntegerProperty.create("lighting_time", 0, isBurnout ? lightingTime : 1);
+    public static final IntegerProperty LIT = IntegerProperty.create("lit_state", 0, 1);
 
     public CustomTorchBlock(Properties properties, IParticleData particle) {
         super(properties, particle);
-        this.registerDefaultState(defaultBlockState().setValue(LIGHTINGTIME, Integer.valueOf(0)).setValue(LITSTATE, Integer.valueOf(0)));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(LIGHTING_TIME, Integer.valueOf(0)).setValue(LIT, Integer.valueOf(0)));
     }
 
     @Override
     public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
-        if (state.getValue(LITSTATE).intValue() == 1 || (state.getValue(LITSTATE).intValue() == 0 && world.getRandom().nextInt(2) == 1)) {
+        if (state.getValue(LIT).intValue() == 1 || (state.getValue(LIT).intValue() == 0 && world.getRandom().nextInt(2) == 1)) {
             double d0 = (double)pos.getX() + 0.5D;
             double d1 = (double)pos.getY() + 0.7D;
             double d2 = (double)pos.getZ() + 0.5D;
@@ -54,7 +54,7 @@ public class CustomTorchBlock extends TorchBlock {
 
     @Override
     public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
-        if (!world.isClientSide() && player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL && state.getValue(LITSTATE) == Integer.valueOf(0)) {
+        if (!world.isClientSide() && player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL && state.getValue(LIT) == Integer.valueOf(0)) {
             playLightingSound(world, pos);
             if (!player.isCreative()) {
                 ItemStack itemStack = player.getItemInHand(hand);
@@ -79,18 +79,18 @@ public class CustomTorchBlock extends TorchBlock {
                 return;
             }
 
-            int currentLightingTime = (state.getValue(LIGHTINGTIME)).intValue() - 1;
+            int currentLightingTime = (state.getValue(LIGHTING_TIME)).intValue() - 1;
             if (currentLightingTime <= 0) {
                 playExtinguishSound(world, pos);
                 unlit(world, pos, state);
                 world.updateNeighborsAt(pos, this);
             }
-            else if ((state.getValue(LITSTATE)).intValue() == 1 && (currentLightingTime <= lightingTime / 10 || currentLightingTime <= 1)) {
+            else if ((state.getValue(LIT)).intValue() == 1 && (currentLightingTime <= lightingTime / 10 || currentLightingTime <= 1)) {
                 few(world, pos, state, currentLightingTime);
                 world.updateNeighborsAt(pos, this);
             }
             else {
-                world.setBlockAndUpdate(pos, state.setValue(LIGHTINGTIME, Integer.valueOf(currentLightingTime)));
+                world.setBlockAndUpdate(pos, state.setValue(LIGHTING_TIME, Integer.valueOf(currentLightingTime)));
                 world.getBlockTicks().scheduleTick(pos, this, 1200);
             }
         }
@@ -112,19 +112,19 @@ public class CustomTorchBlock extends TorchBlock {
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(new Property[]{ (Property)LIGHTINGTIME });
-        builder.add(new Property[]{ (Property)LITSTATE });
+        builder.add(new Property[]{ (Property)LIGHTING_TIME });
+        builder.add(new Property[]{ (Property)LIT });
     }
 
     public void lit(World world, BlockPos pos, BlockState state) {
-        world.setBlockAndUpdate(pos, HCBlocks.CUSTOM_TORCH.get().defaultBlockState().setValue(LIGHTINGTIME, Integer.valueOf(getInitialLightingTime())).setValue(LITSTATE, Integer.valueOf(1)));
+        world.setBlockAndUpdate(pos, HCBlocks.CUSTOM_TORCH.get().defaultBlockState().setValue(LIGHTING_TIME, Integer.valueOf(getInitialLightingTime())).setValue(LIT, Integer.valueOf(1)));
         if (isBurnout)
             world.getBlockTicks().scheduleTick(pos, this, 1200);
     }
 
     public void few(World world, BlockPos pos, BlockState state, int currentLightingTime) {
         if (isBurnout) {
-            world.setBlockAndUpdate(pos, HCBlocks.CUSTOM_TORCH.get().defaultBlockState().setValue(LIGHTINGTIME, Integer.valueOf(currentLightingTime)).setValue(LITSTATE, Integer.valueOf(0)));
+            world.setBlockAndUpdate(pos, HCBlocks.CUSTOM_TORCH.get().defaultBlockState().setValue(LIGHTING_TIME, Integer.valueOf(currentLightingTime)).setValue(LIT, Integer.valueOf(0)));
             world.getBlockTicks().scheduleTick(pos, this, 1200);
         }
     }
@@ -148,26 +148,24 @@ public class CustomTorchBlock extends TorchBlock {
     }
 
     public static IntegerProperty getLightingTime() {
-        return LIGHTINGTIME;
+        return LIGHTING_TIME;
     }
 
-    public static IntegerProperty getLitState() {
-        return LITSTATE;
+    public static IntegerProperty getLit() {
+        return LIT;
     }
 
     public static int getInitialLightingTime() {
         return isBurnout ? lightingTime : 0;
     }
 
-    //Light Level
     public static ToIntFunction<BlockState> getLightValueFromState() {
-        /*return (state) -> {
-            if (state.getValue(CustomTorchBlock.LITSTATE) == CustomTorchBlock.LIT)
+        return (state) -> {
+            if (state.getValue(LIT) == 1)
                 return 14;
-            else if (state.getValue(CustomTorchBlock.LITSTATE) == CustomTorchBlock.LIT)
+            else if (state.getValue(LIT) == 0)
                 return 10;
             return 0;
-        };*/
-        return (state) -> 14;
+        };
     }
 }

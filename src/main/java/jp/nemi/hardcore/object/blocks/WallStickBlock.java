@@ -2,8 +2,10 @@ package jp.nemi.hardcore.object.blocks;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import jp.nemi.hardcore.config.HCConfigGeneral;
+import jp.nemi.hardcore.init.HCBlocks;
+import jp.nemi.hardcore.object.blocks.vanilla.CustomWallTorchBlock;
 import net.minecraft.block.*;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -43,10 +45,8 @@ public class WallStickBlock extends StickBlock {
 
         if (itemStack.getItem() == Items.FLINT_AND_STEEL) {
             if (!world.isClientSide) {
-                Direction direction = player.getDirection();
-                Direction direction1 = direction.getAxis() == Direction.Axis.Y ? player.getDirection().getOpposite() : direction;
                 world.playSound((PlayerEntity)null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                world.setBlock(pos, Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, state.getValue(WallStickBlock.FACING)), 11);
+                world.setBlock(pos, HCBlocks.CUSTOM_WALL_TORCH.get().defaultBlockState().setValue(CustomWallTorchBlock.FACING, HCBlocks.WALL_STICK.get().defaultBlockState().getValue(WallStickBlock.FACING)).setValue(CustomWallTorchBlock.LIT, Integer.valueOf(1)).setValue(CustomWallTorchBlock.LIGHTING_TIME, HCConfigGeneral.torchLightingTime.get()), 11);
 
                 itemStack.hurtAndBreak(1, player, (p_220282_1_) -> {
                     p_220282_1_.broadcastBreakEvent(hand);
