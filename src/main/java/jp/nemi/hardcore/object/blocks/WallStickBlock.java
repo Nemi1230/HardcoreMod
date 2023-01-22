@@ -46,7 +46,7 @@ public class WallStickBlock extends StickBlock {
         if (itemStack.getItem() == Items.FLINT_AND_STEEL) {
             if (!world.isClientSide) {
                 world.playSound((PlayerEntity)null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                world.setBlock(pos, HCBlocks.CUSTOM_WALL_TORCH.get().defaultBlockState().setValue(CustomWallTorchBlock.FACING, HCBlocks.WALL_STICK.get().defaultBlockState().getValue(WallStickBlock.FACING)).setValue(CustomWallTorchBlock.LIT, Integer.valueOf(1)).setValue(CustomWallTorchBlock.LIGHTING_TIME, HCConfigGeneral.torchLightingTime.get()), 11);
+                world.setBlock(pos, HCBlocks.CUSTOM_WALL_TORCH.get().defaultBlockState().setValue(CustomWallTorchBlock.FACING, world.getBlockState(pos).getValue(FACING)).setValue(CustomWallTorchBlock.LIT, Integer.valueOf(1)).setValue(CustomWallTorchBlock.LIGHTING_TIME, HCConfigGeneral.torchLightingTime.get()), 11);
 
                 itemStack.hurtAndBreak(1, player, (p_220282_1_) -> {
                     p_220282_1_.broadcastBreakEvent(hand);
