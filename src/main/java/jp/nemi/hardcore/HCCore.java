@@ -1,6 +1,7 @@
 package jp.nemi.hardcore;
 
 import jp.nemi.hardcore.init.HCBlocks;
+import jp.nemi.hardcore.init.HCItems;
 import jp.nemi.hardcore.init.VanillaItems;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -24,8 +25,9 @@ public class HCCore {
         modBus.addListener(this::init);
         modBus.addListener(this::clientSetup);
 
-        HCBlocks.BLOCKS.register(modBus);
-        VanillaItems.ITEMS.register(modBus);
+        HCBlocks.register(modBus);
+        HCItems.register(modBus);
+        VanillaItems.register(modBus);
 
         instance = this;
         MinecraftForge.EVENT_BUS.register(this);
@@ -38,6 +40,8 @@ public class HCCore {
     private void clientSetup(final FMLClientSetupEvent event) {
         RenderTypeLookup.setRenderLayer(HCBlocks.STICK.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(HCBlocks.WALL_STICK.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(HCBlocks.CUSTOM_TORCH.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(HCBlocks.CUSTOM_WALL_TORCH.get(), RenderType.cutout());
     }
 
     public static HCCore getInstance() {
