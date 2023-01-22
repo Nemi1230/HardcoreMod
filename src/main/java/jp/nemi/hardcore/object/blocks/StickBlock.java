@@ -1,8 +1,6 @@
 package jp.nemi.hardcore.object.blocks;
 
-import jp.nemi.hardcore.config.HCConfigGeneral;
 import jp.nemi.hardcore.init.HCBlocks;
-import jp.nemi.hardcore.object.blocks.vanilla.CustomTorchBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -27,26 +25,26 @@ public class StickBlock extends Block {
     }
 
     @Override
-    public ActionResultType use(BlockState p_225533_1_, World p_225533_2_, BlockPos p_225533_3_, PlayerEntity p_225533_4_, Hand p_225533_5_, BlockRayTraceResult p_225533_6_) {
-        ItemStack itemStack = p_225533_4_.getItemInHand(p_225533_5_);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult result) {
+        ItemStack itemStack = player.getItemInHand(handIn);
 
-        if (itemStack.getItem() == Items.FLINT_AND_STEEL) {
-            if (!p_225533_2_.isClientSide) {
-                p_225533_2_.playSound(null, p_225533_3_, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                p_225533_2_.setBlock(p_225533_3_, HCBlocks.CUSTOM_TORCH.get().defaultBlockState().setValue(CustomTorchBlock.LIT, Integer.valueOf(1)).setValue(CustomTorchBlock.LIGHTING_TIME, Integer.valueOf(HCConfigGeneral.torchLightingTime.get())), 11);
-                p_225533_2_.getBlockTicks().scheduleTick(p_225533_3_, HCBlocks.CUSTOM_TORCH.get(), 1200);
+        if (itemStack.getItem() == Items.FLINT_AND_STEEL || itemStack.getItem() == Items.FIRE_CHARGE) {
+            if (!worldIn.isClientSide) {
+                worldIn.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-                if (!p_225533_4_.isCreative()) {
-                    itemStack.hurtAndBreak(1, p_225533_4_, (p_220282_1_) -> {
-                        p_220282_1_.broadcastBreakEvent(p_225533_5_);
+                worldIn.setBlock(pos, Blocks.TORCH.defaultBlockState(), 11);
+
+                if (!player.isCreative()) {
+                    itemStack.hurtAndBreak(1, player, (p_220282_1_) -> {
+                        p_220282_1_.broadcastBreakEvent(handIn);
                     });
                 }
             }
 
-            return ActionResultType.sidedSuccess(p_225533_2_.isClientSide);
+            return ActionResultType.SUCCESS;
         }
         else {
-            return super.use(p_225533_1_, p_225533_2_, p_225533_3_, p_225533_4_, p_225533_5_, p_225533_6_);
+            return super.use(state, worldIn, pos, player, handIn, result);
         }
     }
 

@@ -2,16 +2,13 @@ package jp.nemi.hardcore.object.blocks;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import jp.nemi.hardcore.config.HCConfigGeneral;
 import jp.nemi.hardcore.init.HCBlocks;
-import jp.nemi.hardcore.object.blocks.vanilla.CustomWallTorchBlock;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -40,23 +37,24 @@ public class WallStickBlock extends StickBlock {
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
-        ItemStack itemStack = player.getItemInHand(hand);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult result) {
+        ItemStack itemStack = player.getItemInHand(handIn);
 
         if (itemStack.getItem() == Items.FLINT_AND_STEEL) {
-            if (!world.isClientSide) {
-                world.playSound((PlayerEntity)null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                world.setBlock(pos, HCBlocks.CUSTOM_WALL_TORCH.get().defaultBlockState().setValue(CustomWallTorchBlock.FACING, world.getBlockState(pos).getValue(FACING)).setValue(CustomWallTorchBlock.LIT, Integer.valueOf(1)).setValue(CustomWallTorchBlock.LIGHTING_TIME, HCConfigGeneral.torchLightingTime.get()), 11);
+            if (!worldIn.isClientSide) {
+                worldIn.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+
+                worldIn.setBlock(pos, Blocks.WALL_TORCH.defaultBlockState().setValue(WallStickBlock.FACING, worldIn.getBlockState(pos).getValue(WallStickBlock.FACING)), 11);
 
                 itemStack.hurtAndBreak(1, player, (p_220282_1_) -> {
-                    p_220282_1_.broadcastBreakEvent(hand);
+                    p_220282_1_.broadcastBreakEvent(handIn);
                 });
             }
 
-            return ActionResultType.sidedSuccess(world.isClientSide);
+            return ActionResultType.SUCCESS;
         }
         else {
-            return super.use(state, world, pos, player, hand, result);
+            return super.use(state, worldIn, pos, player, handIn, result);
         }
     }
 
@@ -75,26 +73,26 @@ public class WallStickBlock extends StickBlock {
     }
 
     @Override
-    public boolean canSurvive(BlockState state, IWorldReader iWorldReader, BlockPos pos) {
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
         Direction direction = state.getValue(FACING);
         BlockPos blockpos = pos.relative(direction.getOpposite());
-        BlockState blockstate = iWorldReader.getBlockState(blockpos);
-        return blockstate.isFaceSturdy(iWorldReader, blockpos, direction);
+        BlockState blockstate = worldIn.getBlockState(blockpos);
+        return blockstate.isFaceSturdy(worldIn, blockpos, direction);
     }
 
     @Override
     @Nullable
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState blockstate = this.defaultBlockState();
-        IWorldReader iworldreader = context.getLevel();
+        IWorldReader worldIn = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
-        Direction[] adirection = context.getNearestLookingDirections();
+        Direction[] directions = context.getNearestLookingDirections();
 
-        for(Direction direction : adirection) {
+        for(Direction direction : directions) {
             if (direction.getAxis().isHorizontal()) {
                 Direction direction1 = direction.getOpposite();
                 blockstate = blockstate.setValue(FACING, direction1);
-                if (blockstate.canSurvive(iworldreader, blockpos)) {
+                if (blockstate.canSurvive(worldIn, blockpos)) {
                     return blockstate;
                 }
             }
@@ -104,8 +102,8 @@ public class WallStickBlock extends StickBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, IWorld world, BlockPos pos, BlockPos pos1) {
-        return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : state;
+    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, IWorld worldIn, BlockPos pos, BlockPos pos1) {
+        return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(worldIn, pos) ? Blocks.AIR.defaultBlockState() : state;
     }
 
     @Override
@@ -121,6 +119,6 @@ public class WallStickBlock extends StickBlock {
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(new Property[]{ FACING });
+        builder.add(FACING);
     }
 }

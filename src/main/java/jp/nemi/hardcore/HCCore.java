@@ -40,8 +40,6 @@ public class HCCore {
     private void clientSetup(final FMLClientSetupEvent event) {
         RenderTypeLookup.setRenderLayer(HCBlocks.STICK.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(HCBlocks.WALL_STICK.get(), RenderType.cutout());
-        RenderTypeLookup.setRenderLayer(HCBlocks.CUSTOM_TORCH.get(), RenderType.cutout());
-        RenderTypeLookup.setRenderLayer(HCBlocks.CUSTOM_WALL_TORCH.get(), RenderType.cutout());
     }
 
     public static HCCore getInstance() {
