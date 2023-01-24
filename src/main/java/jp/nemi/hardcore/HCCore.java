@@ -37,7 +37,7 @@ public class HCCore {
 
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
+    public void clientSetup(final FMLClientSetupEvent event) {
         RenderTypeLookup.setRenderLayer(HCBlocks.STICK.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(HCBlocks.WALL_STICK.get(), RenderType.cutout());
     }
