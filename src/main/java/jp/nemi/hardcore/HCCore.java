@@ -1,10 +1,13 @@
 package jp.nemi.hardcore;
 
 import jp.nemi.hardcore.init.HCBlocks;
+import jp.nemi.hardcore.init.HCConfigs;
 import jp.nemi.hardcore.init.HCItems;
 import jp.nemi.hardcore.init.VanillaItems;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -28,6 +31,7 @@ public class HCCore {
         HCBlocks.register(modBus);
         HCItems.register(modBus);
         VanillaItems.register(modBus);
+        HCConfigs.init();
 
         instance = this;
         MinecraftForge.EVENT_BUS.register(this);
@@ -37,6 +41,7 @@ public class HCCore {
 
     }
 
+    @OnlyIn(Dist.CLIENT)
     public void clientSetup(final FMLClientSetupEvent event) {
         RenderTypeLookup.setRenderLayer(HCBlocks.STICK.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(HCBlocks.WALL_STICK.get(), RenderType.cutout());
