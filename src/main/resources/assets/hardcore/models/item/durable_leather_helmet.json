@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "hardcore:item/durable_leather_helmet",
+        "layer1": "hardcore:item/durable_leather_helmet_overlay"
+    }
+}
