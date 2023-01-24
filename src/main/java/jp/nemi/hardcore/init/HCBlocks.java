@@ -23,8 +23,15 @@ import java.util.function.Supplier;
 public class HCBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, HCCore.MOD_ID);
 
-    public static final RegistryObject<Block> STICK = registerBlock("stick", () -> new StickBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().instabreak().sound(SoundType.WOOD)));
-    public static final RegistryObject<Block> WALL_STICK = registerBlock("wall_stick", () -> new WallStickBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().instabreak().sound(SoundType.WOOD).dropsLike(HCBlocks.STICK.get())));
+    public static RegistryObject<Block> STICK;
+    public static RegistryObject<Block> WALL_STICK;
+
+    public static void register(IEventBus eventBus) {
+        STICK = registerBlock("stick", () -> new StickBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().instabreak().sound(SoundType.WOOD)));
+        WALL_STICK = registerBlock("wall_stick", () -> new WallStickBlock(AbstractBlock.Properties.of(Material.WOOD).noCollission().instabreak().sound(SoundType.WOOD).dropsLike(HCBlocks.STICK.get())));
+
+        BLOCKS.register(eventBus);
+    }
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
@@ -40,9 +47,5 @@ public class HCBlocks {
     private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block, ItemGroup group) {
         HCItems.ITEMS.register(name, () -> new BlockItem(block.get(),
                 new Item.Properties().tab(group)));
-    }
-
-    public static void register(IEventBus eventBus) {
-        BLOCKS.register(eventBus);
     }
 }
