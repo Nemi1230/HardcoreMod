@@ -1,9 +1,7 @@
 package jp.nemi.hardcore;
 
-import jp.nemi.hardcore.init.HCBlocks;
-import jp.nemi.hardcore.init.HCConfigs;
-import jp.nemi.hardcore.init.HCItems;
-import jp.nemi.hardcore.init.VanillaItems;
+import jp.nemi.hardcore.init.*;
+import jp.nemi.hardcore.network.SimpleNetworkHandler;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,6 +29,7 @@ public class HCCore {
         HCBlocks.register(modBus);
         HCItems.register(modBus);
         VanillaItems.register(modBus);
+        HCEffects.register(modBus);
         HCConfigs.init();
 
         instance = this;
@@ -38,7 +37,8 @@ public class HCCore {
     }
 
     private void init(final FMLCommonSetupEvent event) {
-
+        HCCapabilities.registerCapability();
+        SimpleNetworkHandler.init();
     }
 
     @OnlyIn(Dist.CLIENT)
