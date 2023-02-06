@@ -54,5 +54,7 @@
   "item.hardcore.durable_netherite_helmet": "Durable Netherite Helmet",
   "item.hardcore.durable_netherite_chestplate": "Durable Netherite Chestplate",
   "item.hardcore.durable_netherite_leggings": "Durable Netherite Leggings",
-  "item.hardcore.durable_netherite_boots": "Durable Netherite Boots"
+  "item.hardcore.durable_netherite_boots": "Durable Netherite Boots",
+
+  "hardcore.disabled_bed": "Bed use is disabled."
 }
