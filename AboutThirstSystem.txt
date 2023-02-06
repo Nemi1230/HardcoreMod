@@ -1,0 +1,6 @@
+ This is code is based on the "Water Source Mod" thirst system created by "Lemon Slice Studio" under the BSD 3-Clause License.
+ Will be changed in the future.
+
+ Copyright (c) 2020, Lemon Slice Studio
+ Copyright (c) 2020, Nemi1230
+ All rights reserved.
