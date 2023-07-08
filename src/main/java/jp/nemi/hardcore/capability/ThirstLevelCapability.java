@@ -88,7 +88,7 @@ public class ThirstLevelCapability {
             update(player);
         }
 
-        protected void addThirstExhaustion(float value) {
+        public void addThirstExhaustion(float value) {
             reduceLevel((int)((this.thirstExhaustionLevel + value) / 4.0F));
             this.thirstExhaustionLevel = (this.thirstExhaustionLevel + value) % 4.0F;
         }

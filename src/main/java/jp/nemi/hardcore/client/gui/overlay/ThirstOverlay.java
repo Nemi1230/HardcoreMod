@@ -45,10 +45,12 @@ public class ThirstOverlay extends AbstractGui {
         int left = screenWidth / 2 + 91;
         int top = screenHeight - 50;
         int icon = 0;
+        int icon1 = icon;
         int background = 0;
 
         if (effect != null) {
             icon += 36;
+            icon1 += 18;
             background += 12;
         }
 
@@ -68,9 +70,9 @@ public class ThirstOverlay extends AbstractGui {
                 this.blit(ms, x, y, icon + 45, 0, WIDTH, HEIGHT);
             if (HCConfigCommon.isShowThirstSaturationLevel.get().booleanValue()) { //隠し水分量表示
                 if (idx < thirstSaturationLevel)
-                    this.blit(ms, x - 1, y -1, icon, 9, WIDTH + 2, HEIGHT + 2);
+                    this.blit(ms, x, y, icon1, 9, WIDTH, HEIGHT);
                 if (idx == thirstSaturationLevel)
-                    this.blit(ms, x -1, y - 1, icon + 11, 9, WIDTH + 2, HEIGHT + 2);
+                    this.blit(ms, x, y, icon1 + 9, 9, WIDTH, HEIGHT);
             }
         }
 

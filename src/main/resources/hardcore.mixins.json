@@ -3,7 +3,9 @@
   "package": "jp.nemi.hardcore.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "hardcore.refmap.json",
-  "mixins": [],
+  "mixins": [
+    "MixinPlayerEntity"
+  ],
   "client": [
   ],
   "minVersion": "0.8"

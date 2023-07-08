@@ -18,7 +18,7 @@ public class HCEffects {
 
     public static void register(IEventBus eventBus) {
         THIRST = EFFECT.register("thirst", () -> new ThirstEffect(EffectType.HARMFUL, 7789388));
-        THIRST_HYDRATION = EFFECT.register("thirst_hydration", () -> new ThirstHydrationEffect(EffectType.BENEFICIAL, 3644118));
+        THIRST_HYDRATION = EFFECT.register("hydration", () -> new ThirstHydrationEffect(EffectType.BENEFICIAL, 3644118));
 
         EFFECT.register(eventBus);
     }
