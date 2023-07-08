@@ -1,5 +1,6 @@
 {
   "block.hardcore.stick": "棒",
+  "block.hardcore.torch": "松明",
 
   "item.hardcore.durable_wooden_sword": "丈夫な木の剣",
   "item.hardcore.durable_wooden_shovel": "丈夫な木のシャベル",
@@ -55,6 +56,9 @@
   "item.hardcore.durable_netherite_chestplate": "丈夫なネザライトのチェストプレート",
   "item.hardcore.durable_netherite_leggings": "丈夫なネザライトのレギンス",
   "item.hardcore.durable_netherite_boots": "丈夫なネザライトのブーツ",
+
+  "effect.hardcore.thirst": "渇感",
+  "effect.hardcore.hydration": "飲水",
 
   "hardcore.disabled_bed": "ベッドの使用は無効になっています。"
 }

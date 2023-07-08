@@ -1,5 +1,6 @@
 {
   "block.hardcore.stick": "Stick",
+  "block.hardcore.torch": "Torch",
 
   "item.hardcore.durable_wooden_sword": "Durable Wooden Sword",
   "item.hardcore.durable_wooden_shovel": "Durable Wooden Shovel",
@@ -55,6 +56,9 @@
   "item.hardcore.durable_netherite_chestplate": "Durable Netherite Chestplate",
   "item.hardcore.durable_netherite_leggings": "Durable Netherite Leggings",
   "item.hardcore.durable_netherite_boots": "Durable Netherite Boots",
+
+  "effect.hardcore.thirst": "Thirsty",
+  "effect.hardcore.hydration": "Hydration",
 
   "hardcore.disabled_bed": "Bed use is disabled."
 }
