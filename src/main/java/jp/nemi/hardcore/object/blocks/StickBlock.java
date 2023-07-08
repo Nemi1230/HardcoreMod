@@ -1,6 +1,7 @@
 package jp.nemi.hardcore.object.blocks;
 
 import jp.nemi.hardcore.init.HCBlocks;
+import jp.nemi.hardcore.object.blocks.vanilla.HCTorchBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -32,7 +33,8 @@ public class StickBlock extends Block {
             if (!worldIn.isClientSide) {
                 worldIn.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-                worldIn.setBlock(pos, Blocks.TORCH.defaultBlockState(), 11);
+                worldIn.setBlock(pos, HCBlocks.HC_TORCH.get().defaultBlockState().setValue(HCTorchBlock.LIT, 1).setValue(HCTorchBlock.LIGHTING_TIME, HCTorchBlock.getDefaultLightingTime()), 2);
+                worldIn.getBlockTicks().scheduleTick(pos, HCBlocks.HC_TORCH.get(), HCTorchBlock.TICK_INTERVAL);
 
                 if (!player.isCreative()) {
                     itemStack.hurtAndBreak(1, player, (p_220282_1_) -> {

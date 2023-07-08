@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hardcore:block/wall_torch"
+    },
+    "facing=north": {
+      "model": "hardcore:block/wall_torch",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "hardcore:block/wall_torch",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "hardcore:block/wall_torch",
+      "y": 180
+    }
+  }
+}

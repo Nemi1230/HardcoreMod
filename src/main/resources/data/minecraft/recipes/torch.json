@@ -1,11 +1,24 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:air"
-    }
+  "pattern": [
+    "X",
+    "#"
   ],
+  "key": {
+    "#": {
+      "tag": "forge:rods/wooden"
+    },
+    "X": [
+      {
+        "item": "minecraft:coal"
+      },
+      {
+        "item": "minecraft:charcoal"
+      }
+    ]
+  },
   "result": {
-    "item": "minecraft:air"
+    "item": "hardcore:torch",
+    "count": 4
   }
 }

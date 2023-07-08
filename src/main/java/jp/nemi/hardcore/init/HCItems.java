@@ -75,6 +75,8 @@ public class HCItems {
     public static RegistryObject<Item> N_NETHERITE_LEGGINGS;
     public static RegistryObject<Item> N_NETHERITE_BOOTS;
 
+    public static RegistryObject<Item> TORCH;
+
     public static final ItemGroup TAB_MAIN = new ItemGroup("hardcore_main") {
         @Override
         public ItemStack makeIcon() {
@@ -145,6 +147,8 @@ public class HCItems {
             N_NETHERITE_LEGGINGS = ITEMS.register("durable_netherite_leggings", () -> new ArmorItem(HCArmorMaterial.N_NETHERITE, EquipmentSlotType.LEGS, new Item.Properties().tab(HCItems.TAB_TOOLS)));
             N_NETHERITE_BOOTS = ITEMS.register("durable_netherite_boots", () -> new ArmorItem(HCArmorMaterial.N_NETHERITE, EquipmentSlotType.FEET, new Item.Properties().tab(HCItems.TAB_TOOLS)));
         }
+
+        TORCH = ITEMS.register("torch", () -> new WallOrFloorItem(HCBlocks.HC_TORCH.get(), HCBlocks.HC_WALL_TORCH.get(), (new Item.Properties().tab(HCItems.TAB_MAIN))));
 
         ITEMS.register(eventBus);
     }

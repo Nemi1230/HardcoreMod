@@ -3,6 +3,8 @@ package jp.nemi.hardcore.object.blocks;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import jp.nemi.hardcore.init.HCBlocks;
+import jp.nemi.hardcore.object.blocks.vanilla.HCTorchBlock;
+import jp.nemi.hardcore.object.blocks.vanilla.HCWallTorchBlock;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -44,7 +46,8 @@ public class WallStickBlock extends StickBlock {
             if (!worldIn.isClientSide) {
                 worldIn.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-                worldIn.setBlock(pos, Blocks.WALL_TORCH.defaultBlockState().setValue(WallStickBlock.FACING, worldIn.getBlockState(pos).getValue(WallStickBlock.FACING)), 11);
+                worldIn.setBlock(pos, HCBlocks.HC_WALL_TORCH.get().defaultBlockState().setValue(HCTorchBlock.LIT, 1).setValue(HCTorchBlock.LIGHTING_TIME, HCTorchBlock.getDefaultLightingTime()).setValue(HCWallTorchBlock.FACING, worldIn.getBlockState(pos).getValue(WallStickBlock.FACING)), 2);
+                worldIn.getBlockTicks().scheduleTick(pos, HCBlocks.HC_WALL_TORCH.get(), HCTorchBlock.TICK_INTERVAL);
 
                 itemStack.hurtAndBreak(1, player, (p_220282_1_) -> {
                     p_220282_1_.broadcastBreakEvent(handIn);

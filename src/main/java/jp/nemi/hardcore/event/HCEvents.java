@@ -2,27 +2,25 @@ package jp.nemi.hardcore.event;
 
 import jp.nemi.hardcore.HCCore;
 import jp.nemi.hardcore.config.HCConfigCommon;
+import jp.nemi.hardcore.init.HCBlocks;
 import jp.nemi.hardcore.init.HCItems;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IDyeableArmorItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-public class ClientEvents {
+public class HCEvents {
     @Mod.EventBusSubscriber(modid = HCCore.MOD_ID)
     public static class PlayerEvent {
         @SubscribeEvent
@@ -42,20 +40,6 @@ public class ClientEvents {
         }
     }
 
-    @Mod.EventBusSubscriber(modid = HCCore.MOD_ID)
-    public static class EntityEvent {
-        @SubscribeEvent
-        public static void onLivingSpawnEvent(LivingSpawnEvent event) {
-            if (!(event.getEntity() instanceof MobEntity)) return;
-
-            Entity entity = event.getEntity();
-            if (entity instanceof ZombieEntity) {
-                ZombieEntity zombie = (ZombieEntity)entity;
-                zombie.setItemSlot(EquipmentSlotType.HEAD, new ItemStack(Items.IRON_HELMET)); //test
-            }
-        }
-    }
-
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvent {
         @SubscribeEvent
@@ -64,6 +48,14 @@ public class ClientEvents {
             colors.register((stack, color) ->
                             color > 0 ? -1 :((IDyeableArmorItem) stack.getItem()).getColor(stack),
                     HCItems.N_LEATHER_HELMET.get(), HCItems.N_LEATHER_CHESTPLATE.get(), HCItems.N_LEATHER_LEGGINGS.get(), HCItems.N_LEATHER_BOOTS.get());
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        public static void clientSetup(final FMLClientSetupEvent event) {
+            RenderTypeLookup.setRenderLayer(HCBlocks.STICK.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(HCBlocks.WALL_STICK.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(HCBlocks.HC_TORCH.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(HCBlocks.HC_WALL_TORCH.get(), RenderType.cutout());
         }
     }
 }
