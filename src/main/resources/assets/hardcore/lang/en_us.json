@@ -60,5 +60,6 @@
   "effect.hardcore.thirst": "Thirsty",
   "effect.hardcore.hydration": "Hydration",
 
+  "hardcore.join.message": "§4The path thou hast chosen shall undergo a transformation into the arduous and demanding adventure as thou desired.",
   "hardcore.disabled_bed": "Bed use is disabled."
 }

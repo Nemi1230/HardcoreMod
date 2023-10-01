@@ -60,5 +60,6 @@
   "effect.hardcore.thirst": "渇感",
   "effect.hardcore.hydration": "飲水",
 
+  "hardcore.join.message": "§4汝が選びし此の道は、望み通りに険しく厳しい冒険へと変貌を遂げるだろう。",
   "hardcore.disabled_bed": "ベッドの使用は無効になっています。"
 }
