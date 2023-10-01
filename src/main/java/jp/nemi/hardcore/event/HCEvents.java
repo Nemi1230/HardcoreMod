@@ -12,9 +12,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,6 +39,20 @@ public class HCEvents {
                     return;
                 }
                 return;
+            }
+        }
+
+        @SubscribeEvent
+        public static void onEntityJoinWorldEvent(net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent event) {
+            PlayerEntity player = event.getPlayer();
+
+            if (player.level instanceof ServerWorld) {
+                ServerWorld world = (ServerWorld) player.level;
+
+                if (!HCCore.getHCSaveData(world).isAlreadyLoggInWorld) {
+                    player.sendMessage(new TranslationTextComponent("hardcore.join.message"), player.getUUID());
+                    HCCore.getHCSaveData(world).isAlreadyLoggInWorld = true;
+                }
             }
         }
     }
