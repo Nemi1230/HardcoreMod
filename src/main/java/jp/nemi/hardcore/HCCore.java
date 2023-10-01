@@ -1,19 +1,21 @@
 package jp.nemi.hardcore;
 
+import jp.nemi.hardcore.config.HCSaveData;
+import jp.nemi.hardcore.event.HCEvents;
 import jp.nemi.hardcore.init.*;
 import jp.nemi.hardcore.network.SimpleNetworkHandler;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.function.Supplier;
 
 @Mod(HCCore.MOD_ID)
 public class HCCore {
@@ -24,7 +26,7 @@ public class HCCore {
     public HCCore() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener(this::init);
-        modBus.addListener(this::clientSetup);
+        modBus.addListener(HCEvents.ClientModEvent::clientSetup);
 
         HCBlocks.register(modBus);
         HCItems.register(modBus);
@@ -41,13 +43,17 @@ public class HCCore {
         SimpleNetworkHandler.init();
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void clientSetup(final FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(HCBlocks.STICK.get(), RenderType.cutout());
-        RenderTypeLookup.setRenderLayer(HCBlocks.WALL_STICK.get(), RenderType.cutout());
-    }
-
     public static HCCore getInstance() {
         return instance;
+    }
+
+    public static HCSaveData getHCSaveData(World world) {
+        if (world.isClientSide() || !(world instanceof ServerWorld)) return null;
+
+        ServerWorld serverWorld = (ServerWorld) world;
+        DimensionSavedDataManager savedDataManager = serverWorld.getChunkSource().getDataStorage();
+
+
+        return savedDataManager.computeIfAbsent(HCSaveData::new, HCSaveData.NAME);
     }
 }
