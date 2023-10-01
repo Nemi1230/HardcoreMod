@@ -1,11 +1,11 @@
 modLoader="javafml"
 loaderVersion="[36,)"
-license="All rights reserved"
+license="GNU General Public License v3.0"
 
 [[mods]]
 modId="hardcore"
-version="1A0N0"
-displayName="Hradcore Mod"
+version="1.16.5-1A0N0"
+displayName="Hardcore Mod"
 #logoFile="hardcore.png"
 credits=""
 authors="Nemi1230"
