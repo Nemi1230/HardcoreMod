@@ -79,6 +79,7 @@ public class VanillaItems {
     public static RegistryObject<Item> O_NETHERITE_BOOTS;
     //endregion
 
+    //public static RegistryObject<Item> GLOWSTONE_DUST;
     public static RegistryObject<Item> STICK;
 
     public static void register(IEventBus eventBus) {
@@ -139,6 +140,7 @@ public class VanillaItems {
             O_NETHERITE_BOOTS = ITEMS.register("netherite_boots", () -> new ArmorItem(HCArmorMaterial.O_NETHERITE, EquipmentSlotType.FEET, new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
         }
 
+        //GLOWSTONE_DUST = ITEMS.register("glowstone_dust", () -> new GlowstoneDustItem(new Item.Properties().tab(ItemGroup.TAB_MATERIALS)));
         STICK = ITEMS.register("stick", () -> new WallOrFloorItem(HCBlocks.STICK.get(), HCBlocks.WALL_STICK.get(), (new Item.Properties().tab(ItemGroup.TAB_MATERIALS))));
 
         ITEMS.register(eventBus);
