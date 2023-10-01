@@ -55,6 +55,8 @@ public class ThirstEvent {
 
     @SubscribeEvent
     public static void onJump(LivingEvent.LivingJumpEvent event) {
+        if (!HCConfigCommon.isThirstEnabled.get()) return;
+
         Entity entity = event.getEntityLiving();
 
         if (entity instanceof PlayerEntity) {
@@ -71,6 +73,8 @@ public class ThirstEvent {
 
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
+        if (!HCConfigCommon.isThirstEnabled.get()) return;
+
         boolean flag = false;
         flag = !(event.getPlayer() instanceof FakePlayer) && event.getPlayer() instanceof ServerPlayerEntity;
 
@@ -100,6 +104,8 @@ public class ThirstEvent {
 
     @SubscribeEvent
     public static void onPlayerTickEvent(TickEvent.PlayerTickEvent event) {
+        if (!HCConfigCommon.isThirstEnabled.get()) return;
+
         tick++;
         tick %= 8000;
         PlayerEntity player = event.player;
@@ -170,6 +176,8 @@ public class ThirstEvent {
 
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        if (!HCConfigCommon.isThirstEnabled.get()) return;
+
         PlayerEntity player = event.getPlayer();
 
         if (ThirstLevelCapability.canPlayerAddWaterExhaustionLevel(player))
@@ -178,6 +186,8 @@ public class ThirstEvent {
 
     @SubscribeEvent
     public static void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        if (!HCConfigCommon.isThirstEnabled.get()) return;
+
         BlockState state = event.getWorld().getBlockState(event.getPos());
         ItemStack stack = event.getItemStack();
         PlayerEntity player = event.getPlayer();
@@ -188,6 +198,8 @@ public class ThirstEvent {
 
     @SubscribeEvent
     public static void onPlayerRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
+        if (!HCConfigCommon.isThirstEnabled.get()) return;
+
         PlayerEntity player = event.getPlayer();
         World world = event.getWorld();
         BlockRayTraceResult result = getPlayerPOVHitResult(event.getWorld(), event.getPlayer(), RayTraceContext.FluidMode.SOURCE_ONLY);
