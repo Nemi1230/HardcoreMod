@@ -2,10 +2,20 @@ package jp.nemi.hardcore.object.blocks;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import jp.nemi.hardcore.init.HCBlocks;
+import jp.nemi.hardcore.object.blocks.vanilla.HCTorchBlock;
+import jp.nemi.hardcore.object.blocks.vanilla.HCWallTorchBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -15,6 +25,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -28,6 +39,35 @@ public class WallStickBlock extends StickBlock {
         public WallStickBlock(Properties properties) {
                 super(properties);
                 this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        }
+
+        @Override
+        public InteractionResult use(BlockState state, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
+                ItemStack itemStack = player.getItemInHand(hand);
+
+                if (itemStack.getItem() == Items.FLINT_AND_STEEL || itemStack.getItem() == Items.FIRE_CHARGE) {
+                        if (!level.isClientSide) {
+                                level.playSound(null, blockPos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+                                if (!player.isCreative()) {
+                                        itemStack.hurtAndBreak(1, player, (playerEntity) -> {
+                                                playerEntity.broadcastBreakEvent(hand);
+                                        });
+                                }
+
+                                if (level.isRainingAt(blockPos)) {
+                                        level.playSound(null, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.1F + 0.9F);
+                                } else {
+                                        level.setBlock(blockPos, HCBlocks.HC_WALL_TORCH.get().defaultBlockState().setValue(HCTorchBlock.LIT, 1).setValue(HCTorchBlock.LIGHTING_TIME, HCTorchBlock.getDefaultLightingTime()).setValue(HCWallTorchBlock.FACING, level.getBlockState(blockPos).getValue(WallStickBlock.FACING)), 2);
+                                        level.scheduleTick(blockPos, HCBlocks.HC_WALL_TORCH.get(), HCTorchBlock.TICK_INTERVAL);
+                                }
+                        }
+
+                        return InteractionResult.SUCCESS;
+                }
+                else {
+                        return super.use(state, level, blockPos, player, hand, result);
+                }
         }
 
         public String getDescriptionId() {

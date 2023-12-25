@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "lit=2": { "model": "hardcore:block/torch_lit" },
+        "lit=1": { "model": "hardcore:block/torch_few" },
+        "lit=0": { "model": "hardcore:block/torch_burnout" }
+    }
+}

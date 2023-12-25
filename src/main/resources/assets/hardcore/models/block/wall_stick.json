@@ -1,0 +1,7 @@
+{
+  "render_type": "minecraft:cutout",
+  "parent": "block/template_torch_wall",
+  "textures": {
+    "torch": "hardcore:block/stick"
+  }
+}

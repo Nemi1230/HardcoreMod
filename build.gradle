@@ -214,5 +214,4 @@ mixin {
     config 'hardcore.mixins.json'
 	
 	debug.verbose = true
-    debug.export = true
 }

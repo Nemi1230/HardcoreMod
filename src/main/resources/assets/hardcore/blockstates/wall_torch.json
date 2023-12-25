@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "lit=2,facing=east": { "model": "hardcore:block/wall_torch_lit" },
+        "lit=2,facing=north": { "model": "hardcore:block/wall_torch_lit", "y": 270 },
+        "lit=2,facing=south": {"model": "hardcore:block/wall_torch_lit", "y": 90 },
+        "lit=2,facing=west": { "model": "hardcore:block/wall_torch_lit", "y": 180 },
+        "lit=1,facing=east": { "model": "hardcore:block/wall_torch_few" },
+        "lit=1,facing=north": { "model": "hardcore:block/wall_torch_few", "y": 270 },
+        "lit=1,facing=south": {"model": "hardcore:block/wall_torch_few", "y": 90 },
+        "lit=1,facing=west": { "model": "hardcore:block/wall_torch_few", "y": 180 },
+        "lit=0,facing=east": { "model": "hardcore:block/wall_torch_burnout" },
+        "lit=0,facing=north": { "model": "hardcore:block/wall_torch_burnout", "y": 270 },
+        "lit=0,facing=south": {"model": "hardcore:block/wall_torch_burnout", "y": 90 },
+        "lit=0,facing=west": { "model": "hardcore:block/wall_torch_burnout", "y": 180 }
+    }
+}

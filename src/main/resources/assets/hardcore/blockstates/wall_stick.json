@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "hardcore:block/wall_stick"
+    },
+    "facing=north": {
+      "model": "hardcore:block/wall_stick",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "hardcore:block/wall_stick",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "hardcore:block/wall_stick",
+      "y": 180
+    }
+  }
+}
