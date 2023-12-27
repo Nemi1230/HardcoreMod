@@ -4,7 +4,8 @@
     "compatibilityLevel": "JAVA_8",
     "refmap": "hardcore.refmap.json",
     "mixins": [
-        "VillagerMixin"
+        "VillagerMixin",
+        "WanderingTraderMixin"
     ],
     "client": [
     ],
